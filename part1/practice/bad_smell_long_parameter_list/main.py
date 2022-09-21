@@ -11,40 +11,36 @@
 
 
 class Unit:
-    def move(self, field, x_coord, y_coord, direction, is_fly, crawl, speed = 1):
+    new_x = 0
+    new_y = 0
 
-        if is_fly and crawl:
+    def __init__(self,  x_coord, y_coord, direction, speed):
+        self.x_coord = x_coord
+        self.y_coord = y_coord
+        self.direction = direction
+        self.speed = speed
+
+    def move(self, field, is_fly, crawl):
+        if is_fly:
+            self.direction_and_speed(1.2)
+        elif crawl:
+            self.direction_and_speed(0.5)
+        else:
             raise ValueError('Рожденный ползать летать не должен!')
 
-        if is_fly:
-            speed *= 1.2
-            if direction == 'UP':
-                new_y = y_coord + speed
-                new_x = x_coord
-            elif direction == 'DOWN':
-                new_y = y_coord - speed
-                new_x = x_coord
-            elif direction == 'LEFT':
-                new_y = y_coord
-                new_x = x_coord - speed
-            elif direction == 'RIGTH':
-                new_y = y_coord
-                new_x = x_coord + speed
-        if crawl:
-            speed *= 0.5
-            if direction == 'UP':
-                new_y = y_coord + speed
-                new_x = x_coord
-            elif direction == 'DOWN':
-                new_y = y_coord - speed
-                new_x = x_coord
-            elif direction == 'LEFT':
-                new_y = y_coord
-                new_x = x_coord - speed
-            elif direction == 'RIGTH':
-                new_y = y_coord
-                new_x = x_coord + speed
+        field.set_unit(x=self.new_x, y=self.new_y, unit=self)
 
-            field.set_unit(x=new_x, y=new_y, unit=self)
-
-#     ...
+    def direction_and_speed(self, k):
+        self.speed *= k
+        if self.direction == 'UP':
+            self.new_y = self.y_coord + self.speed
+            self.new_x = self.x_coord
+        elif self.direction == 'DOWN':
+            self.new_y = self.y_coord - self.speed
+            self.new_x = self.x_coord
+        elif self.direction == 'LEFT':
+            self.new_y = self.y_coord
+            self.new_x = self.x_coord - self.speed
+        elif self.direction == 'RIGTH':
+            self.new_y = self.y_coord
+            self.new_x = self.x_coord + self.speed
